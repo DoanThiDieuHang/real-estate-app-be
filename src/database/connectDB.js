@@ -1,18 +1,26 @@
 import mongoose from 'mongoose';
+import { databaseConfig } from '../configs/constants.js';
 
 const connectDataBase = async () => {
-    console.log(process.env.MONGODB_CONNECTION_LOCALHOST_URL);
     mongoose.set('strictQuery', true);
     try {
-        await mongoose.connect(process.env.MONGODB_CONNECTION_LOCALHOST_URL, {
-            dbName: `${process.env.DB_NAME}`,
+        await mongoose.connect(databaseConfig.DATABASE, {
+            dbName: `${databaseConfig.DATABASE_NAME}`,
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
         console.log('Connected to DB');
     } catch (err) {
-        console.log('Failed to connect DB');
-        console.log(err);
+        throw new Error('Failed to connect DB');
     }
 };
-export default connectDataBase;
+
+const disConnectDataBase = async () => {
+    try {
+        return mongoose.disconnect();
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export { connectDataBase, disConnectDataBase };
