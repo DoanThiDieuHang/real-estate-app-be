@@ -3,30 +3,30 @@ import mongoose from 'mongoose';
 export const estateStatus = [
     {
         id: mongoose.Types.ObjectId(),
-        name: 'Available'
+        name: 'Đang mở bán'
     },
     {
         id: mongoose.Types.ObjectId(),
-        name: 'Sold'
+        name: 'Đang trao đổi'
     },
     {
         id: mongoose.Types.ObjectId(),
-        name: 'Dealing'
+        name: 'Đã Bán'
     }
 ];
 
 export const estateTypes = [
     {
         id: mongoose.Types.ObjectId(),
-        name: 'House'
+        name: 'Nhà riêng'
     },
     {
         id: mongoose.Types.ObjectId(),
-        name: 'Apartment'
+        name: 'Căn hộ'
     },
     {
         id: mongoose.Types.ObjectId(),
-        name: 'Building'
+        name: 'Tòa nhà'
     }
 ];
 

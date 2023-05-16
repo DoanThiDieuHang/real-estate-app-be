@@ -9,12 +9,12 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import { NODE_ENV } from './configs/constants.js';
 import router from './routers/index.js';
-import swaggerUi from 'swagger-ui-express';
-import { createRequire } from 'node:module';
+// import swaggerUi from 'swagger-ui-express';
+// import { createRequire } from 'node:module';
 import cors from 'cors';
 
-const require = createRequire(import.meta.url);
-const swaggerFile = require('./configs/swagger_output.json');
+// const require = createRequire(import.meta.url);
+// const swaggerFile = require('./configs/swagger_output.json');
 
 const app = express();
 app.use(cors());
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 
 // ROUTER HANDLERS
 app.use('/api/v1', router);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

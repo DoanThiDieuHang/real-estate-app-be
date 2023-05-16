@@ -9,9 +9,9 @@ import UserModel from '../models/user.js';
 await connectDataBase();
 await createSampleUsers(users);
 const availableStatusEstate = await EstateStatusModel.findOne({
-    name: 'Available'
+    name: 'Đang mở bán'
 });
-const houseTypeEstate = await EstateTypeModel.findOne({ name: 'House' });
+const houseTypeEstate = await EstateTypeModel.findOne({ name: 'Nhà riêng' });
 const owner = await UserModel.findOne({ lastName: 'duy' }).exec();
 await createSampleEstates(
     estates_v2(availableStatusEstate.id, houseTypeEstate.id, owner.id)
