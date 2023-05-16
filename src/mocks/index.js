@@ -9,12 +9,12 @@ import UserModel from '../models/user.js';
 await connectDataBase();
 await createSampleUsers(users);
 const availableStatusEstate = await EstateStatusModel.findOne({
-  name: 'Available',
+    name: 'Available'
 });
 const houseTypeEstate = await EstateTypeModel.findOne({ name: 'House' });
 const owner = await UserModel.findOne({ lastName: 'duy' }).exec();
 await createSampleEstates(
-  estates_v2(availableStatusEstate.id, houseTypeEstate.id, owner.id)
+    estates_v2(availableStatusEstate.id, houseTypeEstate.id, owner.id)
 );
 await disConnectDataBase();
 console.log('Create samples data successfuly');
