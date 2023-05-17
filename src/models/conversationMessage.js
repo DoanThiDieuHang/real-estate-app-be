@@ -14,12 +14,14 @@ const conversationMessageSchema = new Schema(
             require: [true, 'PostedByUser is required']
         },
         messageContent: {
-            type: mongoose.Schema.Types.Mixed,
-            require: [true, 'Content is required']
+            type: mongoose.Schema.Types.Mixed
         },
         type: {
             type: String,
             default: 'text'
+        },
+        imageMessage: {
+            type: String
         },
         isRecall: {
             type: Boolean,

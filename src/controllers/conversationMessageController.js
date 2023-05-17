@@ -4,6 +4,7 @@ import ConversationMessageModel from '../models/conversationMessage.js';
 import { conversationError } from '../configs/conversationMessage.js';
 import APIFeatures from '../utils/APIFeatures.js';
 import AppError from '../utils/AppError.js';
+import { v2 as cloudinary } from 'cloudinary';
 
 const createConversationMessage = catchAsync(async (req, res, next) => {
     const data = {
@@ -11,6 +12,11 @@ const createConversationMessage = catchAsync(async (req, res, next) => {
         postedByUser: req.user.id,
         ...req.body
     };
+    if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        data.imageMessage = result.secure_url;
+    }
+
     const newMessage = await ConversationMessageModel.create(data);
     const resMessage = await ConversationMessageModel.findOne({
         _id: newMessage.id

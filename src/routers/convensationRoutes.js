@@ -1,6 +1,8 @@
 import express from 'express';
 import conversationMessageController from '../controllers/conversationMessageController.js';
 import authController from '../controllers/authController.js';
+import { upload } from '../configs/cloudinary.config.js';
+
 import {
     checkIfUserIsOwnerMessage,
     checkUserIsInConversation
@@ -17,6 +19,7 @@ conversationRouter
     )
     .post(
         checkUserIsInConversation,
+        upload.single('imageMessage'),
         conversationMessageController.createConversationMessage
     );
 conversationRouter
