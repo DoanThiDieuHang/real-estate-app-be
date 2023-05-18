@@ -8,6 +8,7 @@ import commentController from '../controllers/commentController.js';
 import { estateMiddleware } from '../middlewares/index.js';
 import conversationController from '../controllers/conversationController.js';
 import { setEstateUserIds } from '../middlewares/userModelMiddlewares.js';
+
 const estateRouter = express.Router();
 estateRouter.post('/nearestEstate', estateController.findNearEstate);
 estateRouter.get('/', estateController.getAllEstate);
@@ -40,5 +41,6 @@ estateRouter.patch(
     uploader.multifile,
     estateController.updateEstate
 );
+estateRouter.patch('/:id/updateStatus', estateController.updateStatusEstate);
 
 export default estateRouter;

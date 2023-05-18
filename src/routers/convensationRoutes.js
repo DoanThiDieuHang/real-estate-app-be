@@ -7,6 +7,7 @@ import {
     checkIfUserIsOwnerMessage,
     checkUserIsInConversation
 } from '../middlewares/userModelMiddlewares.js';
+import conversationController from '../controllers/conversationController.js';
 
 const conversationRouter = express.Router();
 conversationRouter.use(authController.protect);
@@ -28,5 +29,11 @@ conversationRouter
         checkUserIsInConversation,
         checkIfUserIsOwnerMessage,
         conversationMessageController.deleteConversationMessage
+    );
+conversationRouter
+    .route('/:conversationId')
+    .delete(
+        checkUserIsInConversation,
+        conversationController.deleteConversation
     );
 export default conversationRouter;

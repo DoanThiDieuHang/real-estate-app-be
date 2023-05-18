@@ -74,7 +74,7 @@ const updateEstate = async (req, res, next) => {
         return next(error);
     }
 };
-
+const updateStatusEstate = factory.updateOne(EstateModel);
 const deleteEstate = async (req, res, next) => {
     try {
         const estateDeleted = await estateService.deleteEstate(req.estate);
@@ -110,5 +110,6 @@ export {
     getAllEstate,
     updateEstate,
     getEstateByOwner,
-    findNearEstate
+    findNearEstate,
+    updateStatusEstate
 };

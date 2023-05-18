@@ -9,7 +9,8 @@ import {
     deleteEstate,
     updateEstate,
     getEstateByOwner,
-    findNearEstate
+    findNearEstate,
+    updateStatusEstate
 } from './estate.controller.js';
 
 const roleController = {
@@ -34,7 +35,8 @@ const estateController = {
     deleteEstate,
     updateEstate,
     getEstateByOwner,
-    findNearEstate
+    findNearEstate,
+    updateStatusEstate
 };
 
 export {
