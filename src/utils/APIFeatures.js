@@ -4,6 +4,8 @@ const APIFeatures = class {
     constructor(query, queryString) {
         this.query = query;
         this.queryString = queryString;
+        this.countDocs = 0;
+        this.countExecuted = false;
     }
 
     filter() {
@@ -46,6 +48,7 @@ const APIFeatures = class {
 
         return this;
     }
+
     sort() {
         if (this.queryString.sort) {
             const sortFields = this.queryString.sort.split(',');
@@ -98,6 +101,7 @@ const APIFeatures = class {
     }
     searchInRange(fieldName, rangeMax, rangeMin) {
         const condition = {};
+
         rangeMax = parseInt(rangeMax);
         rangeMin = parseInt(rangeMin);
         if (rangeMax && rangeMin) {
@@ -110,6 +114,7 @@ const APIFeatures = class {
             // get all less than
             condition[fieldName] = { $lte: rangeMax };
         }
+
         return condition;
     }
     searchInRangePriceAndAreaAndBathRoomAndBedRoom() {
@@ -137,6 +142,19 @@ const APIFeatures = class {
         );
 
         return this;
+    }
+    async count() {
+        if (this.countExecuted) {
+            return this.countDocs;
+        }
+
+        const countQuery = this.query.model.countDocuments(
+            this.query.getFilter()
+        );
+        this.countDocs = await countQuery.exec();
+        this.countExecuted = true;
+
+        return this.countDocs;
     }
 };
 export default APIFeatures;

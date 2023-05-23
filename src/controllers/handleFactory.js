@@ -84,14 +84,17 @@ const getAll = Model =>
             .sort()
             .limitFields()
             .paginate();
-        // const doc = await features.query.explain();
-        const doc = await features.query;
-        const totalDocs = await Model.countDocuments({});
+        //const doc = await features.query.explain();
+        const [doc, countDocuments] = await Promise.all([
+            features.query,
+            features.count()
+        ]);
+
         // SEND RESPONSE
         res.status(status.OK).json({
             message: message[200],
             data: {
-                totalDocs: totalDocs,
+                totalDocs: countDocuments,
                 total: doc.length,
                 records: doc
             }
