@@ -4,7 +4,7 @@ import { databaseConfig } from '../configs/constants.js';
 const connectDataBase = async () => {
     mongoose.set('strictQuery', true);
     try {
-        await mongoose.connect(databaseConfig.DATABASE_URL, {
+        await mongoose.connect(databaseConfig.DATABASE, {
             dbName: `${databaseConfig.DATABASE_NAME}`,
             useNewUrlParser: true,
             useUnifiedTopology: true
