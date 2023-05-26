@@ -27,6 +27,18 @@ export const estateTypes = [
     {
         id: mongoose.Types.ObjectId(),
         name: 'Tòa nhà'
+    },
+    {
+        id: mongoose.Types.ObjectId(),
+        name: 'Đất nền'
+    },
+    {
+        id: mongoose.Types.ObjectId(),
+        name: 'Nhà trọ'
+    },
+    {
+        id: mongoose.Types.ObjectId(),
+        name: 'Căn hộ chung cư'
     }
 ];
 

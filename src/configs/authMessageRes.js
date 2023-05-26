@@ -1,7 +1,7 @@
 const message = {
     statusSuccess: 'success',
     provideLogin: 'Please provide an email and password',
-    incorrectLogin: 'Incorrect email or password',
+    incorrectLogin: 'Email hoặc mật khẩu không đúng',
     isLogin: ' You are not logged in ',
     userStillExists: 'The user belonging to this token does  no longer exist',
     userChangedPassword: 'Your password has been changed successfully',
@@ -10,8 +10,7 @@ const message = {
     tokenExpired: 'Your password reset token has expired',
     sendEmailSuccess: 'Email sent successfully',
     userWithEmail: 'There is no user with that email',
-    emailAlreadyExists:
-        'There is already an account with that email . Please login or create a new account',
+    emailAlreadyExists: 'Email đã tồn tại, vui lòng sử dụng email khác!',
     passwordCurrentWrong: 'Your current password is wrong.',
     sendEmailError: 'there was an error sending the email.Try again later !'
 };
