@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 const estatesJson = fs.readFileSync(
-    path.join(__dirname, 'estates.json'),
+    path.join(__dirname, 'estates.data.json'),
     'utf-8'
 );
 const estates_v1 = JSON.parse(estatesJson);
