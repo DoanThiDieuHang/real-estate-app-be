@@ -33,4 +33,7 @@ userRouter.route('/me/estates').get(estateController.getEstateByOwner);
 userRouter
     .route('/me/wishesList')
     .get(wishesListController.getWishesListByUser);
+userRouter
+    .route('/me/estates-recommend')
+    .get(estateController.getMyEstateRecommended);
 export default userRouter;

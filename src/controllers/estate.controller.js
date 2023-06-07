@@ -5,6 +5,9 @@ import EstateModel from '../models/estate.js';
 import catchAsync from '../utils/catchAsync.js';
 import APIFeatures from '../utils/APIFeatures.js';
 import { ESTATE_MESSAGES } from '../configs/estates.config.js';
+import conversationService from '../services/conversationService.js';
+import { estateRecommend } from '../services/index.js';
+import wishesListModel from '../models/wishesList.js';
 
 const createEstate = async (req, res, next) => {
     try {
@@ -105,6 +108,47 @@ const findNearEstate = catchAsync(async (req, res, next) => {
         }
     });
 });
+const getMyEstateRecommended = catchAsync(async (req, res, next) => {
+    const owner = req.user.id;
+
+    const [listLikedEstate, listMyConversation] = await Promise.all([
+        wishesListModel.find({ user: owner }),
+        conversationService.findConversationsByUserId(owner)
+    ]);
+
+    const likedEstate = listLikedEstate?.map(item => item.estate) || [];
+    const myConversation = listMyConversation?.map(item => item.estate) || [];
+
+    const estateForRecommend =
+        listLikedEstate.length === 0
+            ? myConversation
+            : listMyConversation.length === 0
+            ? likedEstate
+            : [...likedEstate, ...myConversation];
+
+    const [estateRecommendedData, lengthOfEstateRecommend] =
+        await estateRecommend.hybrid_estatesRecommendation({
+            itemNames: estateForRecommend,
+            userId: owner,
+            topRecommendations: 100
+        });
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const doc = estateRecommendedData.slice(startIndex, endIndex);
+    res.status(status.OK).json({
+        message: status[status.OK],
+        data: {
+            records: doc,
+            total: doc.length,
+            totalDocs: lengthOfEstateRecommend
+        }
+    });
+});
 export {
     createEstate,
     getInfoEstate,
@@ -113,5 +157,6 @@ export {
     updateEstate,
     getEstateByOwner,
     findNearEstate,
-    updateStatusEstate
+    updateStatusEstate,
+    getMyEstateRecommended
 };

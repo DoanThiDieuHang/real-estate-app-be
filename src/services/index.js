@@ -7,6 +7,7 @@ import {
     deleteEstate,
     updateEstate
 } from './estate.services.js';
+import { hybrid_estatesRecommendation } from './estate_recommend.services.js';
 
 const roleService = {
     getAllRoles
@@ -27,4 +28,14 @@ const estateService = {
     updateEstate
 };
 
-export { roleService, orderStatusService, estateStatusService, estateService };
+const estateRecommend = {
+    hybrid_estatesRecommendation
+};
+
+export {
+    roleService,
+    orderStatusService,
+    estateStatusService,
+    estateService,
+    estateRecommend
+};

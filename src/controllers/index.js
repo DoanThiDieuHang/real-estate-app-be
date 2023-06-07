@@ -10,7 +10,8 @@ import {
     updateEstate,
     getEstateByOwner,
     findNearEstate,
-    updateStatusEstate
+    updateStatusEstate,
+    getMyEstateRecommended
 } from './estate.controller.js';
 
 const roleController = {
@@ -36,7 +37,8 @@ const estateController = {
     updateEstate,
     getEstateByOwner,
     findNearEstate,
-    updateStatusEstate
+    updateStatusEstate,
+    getMyEstateRecommended
 };
 
 export {
