@@ -39,6 +39,10 @@ export const estateTypes = [
     {
         id: mongoose.Types.ObjectId(),
         name: 'Căn hộ chung cư'
+    },
+    {
+        id: mongoose.Types.ObjectId(),
+        name: 'Biệt thự'
     }
 ];
 
