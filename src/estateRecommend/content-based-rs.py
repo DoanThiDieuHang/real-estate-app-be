@@ -3,7 +3,7 @@ import function_package
 import sys
 import json
 import collaborative_filter
-
+import os
 
 class ContentBased(object):
     """
@@ -86,31 +86,32 @@ class ContentBased(object):
 
 
 if __name__ == '__main__':
-    # Collaborative filter
-    list_estates_users = json.loads(sys.argv[1])
-    user_id = sys.argv[2]
-    top_recommendations = int(sys.argv[3])
+    #Collaborative-filter
+	list_estates_users = json.loads(os.environ.get('WISHES_USER_LIST', '[]'))
+	user_id = os.environ.get('USER_ID')
+	top_recommendations = int(os.environ.get('TOP_RECOMMENDATIONS'))
     # Content-based
-    list_estates = json.loads(sys.argv[4])
-    item_names = json.loads(sys.argv[5])
-    estates_recommend_for_user = []
-    if list_estates_users != [] and item_names != []:
-        cf = collaborative_filter.Collaborative_filtering(list_estates_users)
-        cf.refresh()
-        cf_recommend_estate = cf.generate_recommendations(
+	list_estates = json.loads(os.environ.get('ESTATE', '[]'))
+	item_names = json.loads(os.environ.get('ITEM_NAMES', '[]'))
+	estates_recommend_for_user = []
+	if list_estates_users != [] and item_names != []:
+		cf = collaborative_filter.Collaborative_filtering(list_estates_users)
+		cf.refresh()
+		cf_recommend_estate = cf.generate_recommendations(
             user_id)
-        cb = ContentBased(list_estates)
-        cb.refresh()
-        item_df = function_package.content_base_function().get_dataframe_estates(
+		cb = ContentBased(list_estates)
+		cb.refresh()
+		item_df = function_package.content_base_function().get_dataframe_estates(
             item_names)
-        estate_cols = ['_id', 'address', 'area',
+		estate_cols = ['_id', 'address', 'area',
                        'bathRoom', 'bedRoom', 'name', 'price', 'type']
-        item_name_recommend = item_df[estate_cols].astype(
+		item_name_recommend = item_df[estate_cols].astype(
             str).apply(' '.join, axis=1).tolist()
-        cb_recommended_estate = cb.item_recommendations(
+		cb_recommended_estate = cb.item_recommendations(
             item_name_recommend)
-        estates_recommend_for_user = cb.adjust_scores_with_collaborative_filtering(
+		estates_recommend_for_user = cb.adjust_scores_with_collaborative_filtering(
             cb_recommended_estate, cf_recommend_estate, top_recommendations)
-
-    print(json.dumps([item['estate']
-          for item in estates_recommend_for_user] if len(estates_recommend_for_user) != 0 else [], ensure_ascii=False))
+	output = json.dumps([item['estate']
+          for item in estates_recommend_for_user] if len(estates_recommend_for_user) != 0 else [], ensure_ascii=False)
+	sys.stdout.reconfigure(encoding='utf-8')
+	print(output)

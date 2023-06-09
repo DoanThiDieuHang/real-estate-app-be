@@ -1,6 +1,8 @@
 import { PythonShell } from 'python-shell';
 import { EstateModel } from '../models/index.js';
 import wishesListModel from '../models/wishesList.js';
+import { execSync } from 'child_process';
+import os from 'os';
 
 const resultCbCache = {};
 
@@ -28,21 +30,33 @@ const hybrid_estatesRecommendation = async ({
                   };
               })
             : [];
-
+    let pythonPath;
+    try {
+        //Use the 'which' command to locate the Python executable
+        const command =
+            os.platform() === 'win32' ? 'where python' : 'which python3';
+        const result = execSync(command).toString().trim();
+        pythonPath = result || command;
+    } catch (err) {
+        // Handle error if 'which' command is not available or Python is not found
+        console.error('Error locating Python executable:', err);
+        process.exit(1);
+    }
     // Set up the PythonShell options
     const options = {
         mode: 'text',
+        pythonPath: pythonPath,
         pythonOptions: ['-u'],
         scriptPath: 'src/estateRecommend',
-        args: [
-            //Collaborative filter
-            JSON.stringify(wishes_user_list),
-            userId,
-            topRecommendations,
-            //content-based
-            JSON.stringify(estate),
-            JSON.stringify(itemNames)
-        ]
+        env: {
+            // Collaborative filter
+            WISHES_USER_LIST: JSON.stringify(wishes_user_list),
+            USER_ID: userId,
+            TOP_RECOMMENDATIONS: topRecommendations,
+            // Content-based
+            ESTATE: JSON.stringify(estate),
+            ITEM_NAMES: JSON.stringify(itemNames)
+        }
     };
 
     // Execute the Python script
