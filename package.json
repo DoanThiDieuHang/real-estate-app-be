@@ -8,9 +8,6 @@
         "start:prod": "NODE_ENV=production nodemon src/server.js",
         "swagger-autogen": " node src/configs/swagger.js",
         "dev": "nodemon src/server.js",
-        "seed": "node src/seed/index.js",
-        "mock": "node src/mocks/index.js",
-        "dev:test": "npm run seed && npm run mock && npm run dev",
         "prepare": "husky install"
     },
     "repository": "https://gitlab.com/capstone-project9204418/real-estate-app-backend.git",
