@@ -9,6 +9,7 @@ mapsRouter.get(
     mapPointerController.getAllDistrictsByProvinceCode
 );
 mapsRouter.get('/wards', mapPointerController.getAllWardsByDistrictCode);
+mapsRouter.get('/wards-estate', mapPointerController.getEstateByWards);
 mapsRouter.get(
     '/coordinates/',
     mapPointerController.getRelativeCoordinatesByAdress

@@ -1,5 +1,6 @@
 import { MapPointer } from '../utils/mappointer.js';
 import status from 'http-status';
+import { EstateModel } from '../models/index.js';
 
 export const mapPointerController = {
     getAllProvinces: async (req, res, next) => {
@@ -75,6 +76,60 @@ export const mapPointerController = {
                 records: {
                     data: location
                 }
+            });
+        } catch (error) {
+            return next(error);
+        }
+    },
+    getEstateByWards: async (req, res, next) => {
+        try {
+            const { provinceCode } = req.query;
+            const districts = await MapPointer.getAllDistrictsByProvinceCode(
+                provinceCode
+            );
+            const estate = await EstateModel.find();
+
+            const wards = [];
+
+            for (const item of districts) {
+                const wardsByDistrictCode =
+                    await MapPointer.getAllWardsByDistrictCode(item.code);
+                if (wardsByDistrictCode !== undefined) {
+                    wards.push(...wardsByDistrictCode);
+                }
+            }
+
+            const resultEstate =
+                wards.length > 0
+                    ? wards.flatMap(item => {
+                          const itemName = item.name
+                              .replace(/^(Phường|Xã)\s+/, '')
+                              .toLowerCase()
+                              .trim();
+                          const filteredCoordinates = estate
+                              .filter(estateItem =>
+                                  estateItem.address
+                                      .toLowerCase()
+                                      .includes(itemName)
+                              )
+                              .map(filteredEstate => [
+                                  filteredEstate.location.coordinates[1],
+                                  filteredEstate.location.coordinates[0]
+                              ]);
+                          return {
+                              ward: item,
+                              coordinates: filteredCoordinates
+                          };
+                      })
+                    : [];
+
+            const totalRecords = resultEstate.flatMap(
+                item => item.coordinates
+            ).length;
+
+            return res.status(status.OK).json({
+                message: status[status.OK],
+                data: { total: totalRecords, records: resultEstate }
             });
         } catch (error) {
             return next(error);
