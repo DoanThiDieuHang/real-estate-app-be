@@ -53,14 +53,17 @@ const getEstateByOwner = catchAsync(async (req, res, next) => {
         .sort()
         .limitFields()
         .paginate();
-    const doc = await features.query;
-    const totalDocs = await EstateModel.countDocuments({});
+
+    const [doc, countDocuments] = await Promise.all([
+        features.query,
+        features.count()
+    ]);
     res.status(status.OK).json({
         message: status[status.OK],
         data: {
             records: doc,
             total: doc.length,
-            totalDocs: totalDocs
+            totalDocs: countDocuments
         }
     });
 });
