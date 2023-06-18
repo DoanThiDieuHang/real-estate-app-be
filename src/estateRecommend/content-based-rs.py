@@ -17,7 +17,7 @@ class ContentBased(object):
         self.tfidf_matrix = None
         self.cosine_sim = None
         self.estate_cols = ['_id', 'address', 'area',
-                            'bathRoom', 'bedRoom', 'name', 'price', 'type']
+                            'bathRoom', 'bedRoom', 'price', 'type']
 
     def build_model(self):
         """
@@ -54,7 +54,7 @@ class ContentBased(object):
             str).apply(lambda x: ' '.join(x), axis=1))
         sim_scores_results = []
         for item in array_item:
-            item_str = ''.join(map(str, item))
+            item_str = ''.join(map(str, item)).strip()
             idx = indices[item_str]
             sim_scores = list(enumerate(self.cosine_sim[idx]))
             sim_scores = [i for i in sim_scores if i[0] != idx]
@@ -95,22 +95,26 @@ if __name__ == '__main__':
 	item_names = json.loads(os.environ.get('ITEM_NAMES', '[]'))
 	estates_recommend_for_user = []
 	if list_estates_users != [] and item_names != []:
-		cf = collaborative_filter.Collaborative_filtering(list_estates_users)
-		cf.refresh()
-		cf_recommend_estate = cf.generate_recommendations(
-            user_id)
 		cb = ContentBased(list_estates)
 		cb.refresh()
 		item_df = function_package.content_base_function().get_dataframe_estates(
             item_names)
 		estate_cols = ['_id', 'address', 'area',
-                       'bathRoom', 'bedRoom', 'name', 'price', 'type']
+                       'bathRoom', 'bedRoom', 'price', 'type']
+        
 		item_name_recommend = item_df[estate_cols].astype(
             str).apply(' '.join, axis=1).tolist()
 		cb_recommended_estate = cb.item_recommendations(
             item_name_recommend)
-		estates_recommend_for_user = cb.adjust_scores_with_collaborative_filtering(
+		if any(estate["user_id"] == user_id for estate in list_estates_users):
+			cf = collaborative_filter.Collaborative_filtering(list_estates_users)
+			cf.refresh()
+			cf_recommend_estate = cf.generate_recommendations(
+            user_id)
+			estates_recommend_for_user = cb.adjust_scores_with_collaborative_filtering(
             cb_recommended_estate, cf_recommend_estate, top_recommendations)
+		else:
+			estates_recommend_for_user = cb_recommended_estate
 	output = json.dumps([item['estate']
           for item in estates_recommend_for_user] if len(estates_recommend_for_user) != 0 else [], ensure_ascii=False)
 	sys.stdout.reconfigure(encoding='utf-8')
