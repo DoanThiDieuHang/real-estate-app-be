@@ -3,8 +3,16 @@ import { EstateModel } from '../models/index.js';
 import wishesListModel from '../models/wishesList.js';
 import { execSync } from 'child_process';
 import os from 'os';
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 const resultCbCache = {};
+
+const generatePayloadFile = payload => {
+    const filePath = `/tmp/${uuidv4()}.json`;
+    fs.writeFileSync(filePath, JSON.stringify(payload));
+    return filePath;
+};
 
 const hybrid_estatesRecommendation = async ({
     itemNames = [],
@@ -49,7 +57,8 @@ const hybrid_estatesRecommendation = async ({
         USER_ID: userId,
         TOP_RECOMMENDATIONS: topRecommendations,
         // Content-based
-        ESTATE: JSON.stringify(estate),
+        ESTATE_FILE_PATH: generatePayloadFile(estate),
+        //ESTATE: JSON.stringify(estate),
         ITEM_NAMES: JSON.stringify(itemNames)
     };
     const options = {

@@ -91,7 +91,10 @@ if __name__ == '__main__':
 	user_id = os.environ.get('USER_ID')
 	top_recommendations = int(os.environ.get('TOP_RECOMMENDATIONS'))
     # Content-based
-	list_estates = json.loads(os.environ.get('ESTATE', '[]'))
+	#list_estates = json.loads(os.environ.get('ESTATE', '[]'))
+	payload_file_path = os.environ.get('ESTATE_FILE_PATH')
+	with open(payload_file_path, 'r') as file:
+		list_estates = json.load(file)
 	item_names = json.loads(os.environ.get('ITEM_NAMES', '[]'))
 	estates_recommend_for_user = []
 	if list_estates_users != [] and item_names != []:
@@ -118,4 +121,5 @@ if __name__ == '__main__':
 	output = json.dumps([item['estate']
           for item in estates_recommend_for_user] if len(estates_recommend_for_user) != 0 else [], ensure_ascii=False)
 	sys.stdout.reconfigure(encoding='utf-8')
+	os.remove(payload_file_path)
 	print(output)
