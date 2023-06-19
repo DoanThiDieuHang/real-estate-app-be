@@ -43,20 +43,23 @@ const hybrid_estatesRecommendation = async ({
         process.exit(1);
     }
     // Set up the PythonShell options
+    const env = {
+        // Collaborative filter
+        WISHES_USER_LIST: JSON.stringify(wishes_user_list),
+        USER_ID: userId,
+        TOP_RECOMMENDATIONS: topRecommendations,
+        // Content-based
+        ESTATE: JSON.stringify(estate),
+        ITEM_NAMES: JSON.stringify(itemNames)
+    };
     const options = {
         mode: 'text',
         pythonPath: pythonPath,
         pythonOptions: ['-u'],
         scriptPath: 'src/estateRecommend',
-        env: {
-            // Collaborative filter
-            WISHES_USER_LIST: JSON.stringify(wishes_user_list),
-            USER_ID: userId,
-            TOP_RECOMMENDATIONS: topRecommendations,
-            // Content-based
-            ESTATE: JSON.stringify(estate),
-            ITEM_NAMES: JSON.stringify(itemNames)
-        }
+        args: [],
+        scriptArgs: [],
+        env
     };
 
     // Execute the Python script
