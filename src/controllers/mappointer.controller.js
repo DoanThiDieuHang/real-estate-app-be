@@ -112,10 +112,10 @@ export const mapPointerController = {
                                       .toLowerCase()
                                       .includes(itemName)
                               )
-                              .map(filteredEstate => [
-                                  filteredEstate.location.coordinates[1],
-                                  filteredEstate.location.coordinates[0]
-                              ]);
+                              .map(
+                                  filteredEstate =>
+                                      filteredEstate.location.coordinates
+                              );
                           return {
                               ward: item,
                               coordinates: filteredCoordinates
