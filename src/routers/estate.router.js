@@ -26,7 +26,7 @@ estateRouter.use('/:estateId/comments', commentRouter);
 estateRouter.delete(
     '/:id',
     estateMiddleware.checkExistanceEstate,
-    estateMiddleware.checkIsOwner,
+    estateMiddleware.checkIsOwnerOrAdmin,
     estateController.deleteEstate
 );
 estateRouter.post(
@@ -37,7 +37,7 @@ estateRouter.post(
 estateRouter.patch(
     '/:id',
     estateMiddleware.checkExistanceEstate,
-    estateMiddleware.checkIsOwner,
+    estateMiddleware.checkIsOwnerOrAdmin,
     uploader.multifile,
     estateController.updateEstate
 );

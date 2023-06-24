@@ -1,7 +1,10 @@
-import { checkExistanceEstate, checkIsOwner } from './estate.middleware.js';
+import {
+    checkExistanceEstate,
+    checkIsOwnerOrAdmin
+} from './estate.middleware.js';
 
 const estateMiddleware = {
     checkExistanceEstate,
-    checkIsOwner
+    checkIsOwnerOrAdmin
 };
 export { estateMiddleware };

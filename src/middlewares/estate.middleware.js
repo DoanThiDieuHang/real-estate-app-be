@@ -21,11 +21,14 @@ export const checkExistanceEstate = async (req, res, next) => {
     next();
 };
 
-export const checkIsOwner = async (req, res, next) => {
+export const checkIsOwnerOrAdmin = async (req, res, next) => {
     try {
         const salerId = req.user.id;
         const estateFound = req.estate;
-        if (salerId !== estateFound.owner?.id.toString()) {
+        if (
+            salerId !== estateFound.owner?.id.toString() &&
+            req.user?.role.toString().toLowerCase() !== 'admin'
+        ) {
             return next(
                 new AppError(ESTATE_MESSAGES.IS_NOT_OWNER, status.FORBIDDEN)
             );
