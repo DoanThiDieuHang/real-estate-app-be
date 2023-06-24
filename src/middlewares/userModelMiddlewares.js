@@ -36,6 +36,15 @@ export const checkIfUserIsOwnerMessage = catchAsync(async (req, res, next) => {
     }
     next();
 });
+export const checkUserAdmin = catchAsync(async (req, res, next) => {
+    if (req.user?.role.toString().toLowerCase() !== 'admin') {
+        return next(
+            new AppError('User is not an administrator', status.UNAUTHORIZED)
+        );
+    }
+    next();
+});
+
 export const checkUserIsInConversation = catchAsync(async (req, res, next) => {
     const currentConversation = await ConversationModel.findById(
         req.params.conversationId
