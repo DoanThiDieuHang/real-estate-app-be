@@ -26,6 +26,21 @@ const createEstate = async (req, res, next) => {
 };
 
 const getAllEstate = factory.getAll(EstateModel);
+const getAllEstateNoPaging = async (req, res, next) => {
+    try {
+        const estate = await EstateModel.find();
+        return res.status(status.OK).json({
+            message: status[status.OK],
+            data: {
+                records: estate,
+                total: estate.length,
+                totalDocs: estate.length
+            }
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
 
 const getInfoEstate = async (req, res, next) => {
     try {
@@ -161,5 +176,6 @@ export {
     getEstateByOwner,
     findNearEstate,
     updateStatusEstate,
-    getMyEstateRecommended
+    getMyEstateRecommended,
+    getAllEstateNoPaging
 };

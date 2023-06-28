@@ -12,6 +12,7 @@ import { setEstateUserIds } from '../middlewares/userModelMiddlewares.js';
 const estateRouter = express.Router();
 estateRouter.post('/nearestEstate', estateController.findNearEstate);
 estateRouter.get('/', estateController.getAllEstate);
+estateRouter.get('/no-paging', estateController.getAllEstateNoPaging);
 estateRouter.route('/:estateId/comments', commentController.getCommentByEstate);
 estateRouter.get(
     '/:id',
