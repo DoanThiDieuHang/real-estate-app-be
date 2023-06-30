@@ -65,6 +65,13 @@ const userSchema = new mongoose.Schema(
                 message: 'A user can have a maximum of estates'
             }
         },
+        remainingEstates: {
+            type: Number,
+            default: function () {
+                return this.maxPostEstate - this.estates.length;
+            }
+        },
+
         isEmailVerified: {
             type: Boolean,
             default: false
