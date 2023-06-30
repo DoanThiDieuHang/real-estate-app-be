@@ -49,12 +49,20 @@ const userSchema = new mongoose.Schema(
                     return el === this.password;
                 }
             },
-            estates: [
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'EstateModel'
+            estates: {
+                type: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        ref: 'EstateModel'
+                    }
+                ],
+                validate: {
+                    validator: function (estates) {
+                        return estates.length <= 5; // Maximum of 5 estates allowed
+                    },
+                    message: 'A user can have a maximum of 5 estates'
                 }
-            ],
+            },
             isEmailVerified: {
                 type: Boolean,
                 default: false
