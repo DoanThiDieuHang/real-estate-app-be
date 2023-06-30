@@ -8,15 +8,13 @@ from pandas import isnull, notnull
 
 class content_base_function():
     def __init__(self):
-        self.estate_cols = ['_id','type', 'address', 'area',
-                            'bathRoom', 'bedRoom', 'price']
+        self.estate_cols = ['_id','type','price']
 
     def get_dataframe_estates(self, text):
         """
         đọc file csv của estates.csv, lưu thành dataframe với 3 cột user id, name, type
         """
         estates = pandas.DataFrame(text)
-        estates['area'] = estates['area'].astype(int)
         return estates[self.estate_cols]
 
     def tfidf_matrix(self, estates):

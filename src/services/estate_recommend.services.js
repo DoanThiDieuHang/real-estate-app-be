@@ -31,13 +31,15 @@ const hybrid_estatesRecommendation = async ({
     const wishes_user_list =
         wishesList.length > 0
             ? wishesList?.map(item => {
-                  return {
-                      user_id: item?.user,
-                      estateId: item?.estate?._id,
-                      like: 'true'
-                  };
+                  if (item.estate != null)
+                      return {
+                          user_id: item?.user,
+                          estateId: item?.estate?._id,
+                          like: 'true'
+                      };
               })
             : [];
+
     let pythonPath;
     try {
         //Use the 'which' command to locate the Python executable
@@ -77,6 +79,7 @@ const hybrid_estatesRecommendation = async ({
         pythonShell.on('message', message => {
             resolve(message);
         });
+
         pythonShell.on('error', err => {
             reject(err);
         });
