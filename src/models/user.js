@@ -48,26 +48,36 @@ const userSchema = new mongoose.Schema(
                 validator: function (el) {
                     return el === this.password;
                 }
-            },
-            estates: {
-                type: [
-                    {
-                        type: Schema.Types.ObjectId,
-                        ref: 'EstateModel'
-                    }
-                ],
-                validate: {
-                    validator: function (estates) {
-                        return estates.length <= 5; // Maximum of 5 estates allowed
-                    },
-                    message: 'A user can have a maximum of 5 estates'
-                }
-            },
-            isEmailVerified: {
-                type: Boolean,
-                default: false
             }
         },
+        estates: {
+            type: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'EstateModel'
+                }
+            ],
+            validate: {
+                validator: function (estates) {
+                    const maxEstates = this.isPay ? this.maxPostEstate : 5;
+                    return estates.length <= maxEstates;
+                },
+                message: 'A user can have a maximum of estates'
+            }
+        },
+        isEmailVerified: {
+            type: Boolean,
+            default: false
+        },
+        isPay: {
+            type: Boolean,
+            default: false
+        },
+        maxPostEstate: {
+            type: Number,
+            default: 5
+        },
+
         passwordChangedAt: {
             type: Date
         },
