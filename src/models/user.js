@@ -133,10 +133,6 @@ userSchema.methods.createPasswordResetToken = function () {
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
     return resetToken;
 };
-// Custom validation function for 'estates' field
-userSchema.path('estates').validate(function (estates) {
-    return estates.length <= 5; // Maximum of 5 estates allowed
-}, 'A user can have a maximum of 5 estates');
 
 const UserModel = mongoose.model('Users', userSchema);
 export default UserModel;
