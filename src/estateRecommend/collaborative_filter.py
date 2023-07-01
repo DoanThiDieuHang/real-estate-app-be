@@ -45,7 +45,7 @@ class Collaborative_filtering(object):
     def generate_recommendations(self, user_id):
         target_user_index = np.where(self.users == user_id)[0][0]
         similar_users = np.argsort(self.similarity_matrix[target_user_index])[
-            ::-1][1:]  # Exclude the target user
+            ::-1][1:]
 
         target_user_favorite_items = self.user_favorite_matrix[target_user_index]
         recommendations = []

@@ -6,10 +6,6 @@ import collaborative_filter
 import os
 
 class ContentBased(object):
-    """
-        Khởi tại dataframe "estates" với hàm "get_dataframe_estates_csv"
-    """
-
     def __init__(self, estates):
         self.estates_json = estates
         self.estates = function_package.content_base_function().get_dataframe_estates(
@@ -19,36 +15,15 @@ class ContentBased(object):
         self.estate_cols = ['_id','price', 'type']
 
     def build_model(self):
-        """
-            Tách các giá trị của type ở từng estate đang được ngăn cách bởi '|'
-        """
         self.tfidf_matrix = function_package.content_base_function().tfidf_matrix(
             self.estates)
         self.cosine_sim = function_package.content_base_function.cosine_sim(
             self.tfidf_matrix)
 
     def refresh(self):
-        """
-             Chuẩn hóa dữ liệu và tính toán lại ma trận
-        """
         self.build_model()
 
     def item_recommendations(self, array_item):
-        """
-            Xây dựng hàm trả về danh sách top film tương đồng theo tên film truyền vào:
-            + Tham số truyền vào gồm "title" là tên film và "topX" là top film tương đồng cần lấy
-            + Tạo ra list "sim_score" là danh sách điểm tương đồng với film truyền vào
-            + Sắp xếp điểm tương đồng từ cao đến thấp
-            + Trả về top danh sách tương đồng cao nhất theo giá trị "topX" truyền vào
-        """
-        """
-    Return a list of top similar items based on the given item name across all columns.
-    Parameters:
-    - name: The name of the item for which recommendations are requested.
-    - top_x: The number of top similar items to return.
-    Returns:
-    - A tuple containing the list of similar item scores and the corresponding item titles.
-    """
         indices = pd.Series(self.estates.index, index=self.estates[self.estate_cols].astype(
             str).apply(lambda x: ' '.join(x), axis=1))
         sim_scores_results = []
@@ -116,8 +91,10 @@ if __name__ == '__main__':
             cb_recommended_estate, cf_recommend_estate, top_recommendations)
 		else:
 			estates_recommend_for_user = cb_recommended_estate
+	
 	output = json.dumps([item['estate']
           for item in estates_recommend_for_user] if len(estates_recommend_for_user) != 0 else [], ensure_ascii=False)
 	sys.stdout.reconfigure(encoding='utf-8')
 	os.remove(payload_file_path)
 	print(output)
+

@@ -147,8 +147,7 @@ const getMyEstateRecommended = catchAsync(async (req, res, next) => {
     const [estateRecommendedData, lengthOfEstateRecommend] =
         await estateRecommend.hybrid_estatesRecommendation({
             itemNames: estateForRecommend,
-            userId: owner,
-            topRecommendations: 100
+            userId: owner
         });
 
     const page = parseInt(req.query.page) || 1;

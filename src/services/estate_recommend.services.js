@@ -16,8 +16,7 @@ const generatePayloadFile = payload => {
 
 const hybrid_estatesRecommendation = async ({
     itemNames = [],
-    userId = '',
-    topRecommendations = 0
+    userId = ''
 }) => {
     const cacheKey = JSON.stringify(itemNames);
 
@@ -26,6 +25,7 @@ const hybrid_estatesRecommendation = async ({
         return [cachedResults, cachedResults.length];
     }
     const estate = await EstateModel.find();
+    const topRecommendations = estate.length;
     const wishesList = await wishesListModel.find();
 
     const wishes_user_list =
@@ -42,13 +42,11 @@ const hybrid_estatesRecommendation = async ({
 
     let pythonPath;
     try {
-        //Use the 'which' command to locate the Python executable
         const command =
             os.platform() === 'win32' ? 'where python' : 'which python3';
         const result = execSync(command).toString().trim();
         pythonPath = result || command;
     } catch (err) {
-        // Handle error if 'which' command is not available or Python is not found
         console.error('Error locating Python executable:', err);
         process.exit(1);
     }
