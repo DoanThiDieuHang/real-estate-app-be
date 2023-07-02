@@ -9,7 +9,7 @@ import commentRouter from './commentRoutes.js';
 import wishesListRouter from './wishesListRoutes.js';
 import conversationRouter from './convensationRoutes.js';
 import mapsRouter from './maps.router.js';
-
+import order from './order.js';
 const router = express.Router();
 
 router.use('/order-status', orderStatusRouter);
@@ -24,4 +24,5 @@ router.use('/comments', commentRouter);
 router.use('/wishesLists', wishesListRouter);
 router.use('/conversations', conversationRouter);
 router.use('/maps', mapsRouter);
+router.use('/order', order);
 export default router;
