@@ -51,10 +51,6 @@ const hybrid_estatesRecommendation = async ({
         console.error('Error locating Python executable:', err);
         process.exit(1);
     }
-    console.log(
-        '🚀 ~ file: estate_recommend.services.js:44 ~ pythonPath:',
-        pythonPath
-    );
     // Set up the PythonShell options
     const env = {
         // Collaborative filter
