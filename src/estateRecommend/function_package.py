@@ -1,7 +1,6 @@
 import pandas
 from sklearn.metrics.pairwise import linear_kernel
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pandas
 
 
 class content_base_function():
