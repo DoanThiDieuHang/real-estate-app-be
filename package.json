@@ -4,7 +4,7 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint \"**/*.js\" --fix",
-        "start:dev": " NODE_ENV=development nodemon src/server.js && pip install -r requirements.txt",
+        "start:dev": " NODE_ENV=development nodemon src/server.js",
         "start:prod": "NODE_ENV=production nodemon src/server.js",
         "swagger-autogen": " node src/configs/swagger.js",
         "dev": "nodemon src/server.js",

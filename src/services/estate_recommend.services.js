@@ -41,6 +41,7 @@ const hybrid_estatesRecommendation = async ({
             : [];
 
     let pythonPath;
+
     try {
         const command =
             os.platform() === 'win32' ? 'where python' : 'which python3';
@@ -50,6 +51,10 @@ const hybrid_estatesRecommendation = async ({
         console.error('Error locating Python executable:', err);
         process.exit(1);
     }
+    console.log(
+        '🚀 ~ file: estate_recommend.services.js:44 ~ pythonPath:',
+        pythonPath
+    );
     // Set up the PythonShell options
     const env = {
         // Collaborative filter
@@ -76,10 +81,12 @@ const hybrid_estatesRecommendation = async ({
     const results = await new Promise((resolve, reject) => {
         pythonShell.on('message', message => {
             resolve(message);
+            console.log('message: ', message);
         });
 
         pythonShell.on('error', err => {
             reject(err);
+            console.log('err: ', err);
         });
         pythonShell.end(err => {
             if (err) {
