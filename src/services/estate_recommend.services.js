@@ -68,7 +68,7 @@ const hybrid_estatesRecommendation = async ({
     };
     const options = {
         mode: 'text',
-        pythonPath: '/opt/render/.local/bin/python3',
+        pythonPath: pythonPath,
         pythonOptions: ['-u'],
         scriptPath: 'src/estateRecommend',
         args: [],
