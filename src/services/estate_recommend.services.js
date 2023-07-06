@@ -66,7 +66,7 @@ const hybrid_estatesRecommendation = async ({
         pythonPath: pythonPath,
         pythonOptions: ['-u'],
         scriptPath: 'src/estateRecommend',
-        args: [],
+        args: ['print(sys.executable)'],
         scriptArgs: [],
         env
     };
