@@ -26,7 +26,9 @@ userRouter
     .get(userController.getUser)
     .delete(checkUserAdmin, userController.deleteUser)
     .patch(checkUserAdmin, userController.updateUser);
-
+userRouter
+    .route('/:id/estates')
+    .get(checkUserAdmin, estateController.getEstateByUser);
 // nested router for user
 userRouter
     .route('/me/conversations')

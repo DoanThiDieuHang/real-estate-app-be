@@ -50,21 +50,19 @@ const userSchema = new mongoose.Schema(
                 }
             }
         },
-        estates: {
-            type: [
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'EstateModel'
+        estates: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Estates',
+                validate: {
+                    validator: function (estates) {
+                        const maxEstates = this.isPay ? this.maxPostEstate : 5;
+                        return estates.length <= maxEstates;
+                    },
+                    message: 'A user can have a maximum of estates'
                 }
-            ],
-            validate: {
-                validator: function (estates) {
-                    const maxEstates = this.isPay ? this.maxPostEstate : 5;
-                    return estates.length <= maxEstates;
-                },
-                message: 'A user can have a maximum of estates'
             }
-        },
+        ],
         remainingEstates: {
             type: Number,
             default: function () {
@@ -110,6 +108,11 @@ const userSchema = new mongoose.Schema(
         timestamps: true
     }
 );
+userSchema.pre(/^find/, function (next) {
+    this.populate('estates');
+    next();
+});
+
 userSchema.pre('save', async function (next) {
     // only run this function if password was actually modified
     if (!this.isModified('password')) return next();
