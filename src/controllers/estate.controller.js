@@ -82,6 +82,32 @@ const getEstateByOwner = catchAsync(async (req, res, next) => {
         }
     });
 });
+const getEstateByUser = catchAsync(async (req, res, next) => {
+    const owner = req.params.id;
+
+    const features = new APIFeatures(
+        EstateModel.find({ owner: owner }),
+        req.query
+    )
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+    const [doc, countDocuments] = await Promise.all([
+        features.query,
+        features.count()
+    ]);
+    res.status(status.OK).json({
+        message: status[status.OK],
+        data: {
+            records: doc,
+            total: doc.length,
+            totalDocs: countDocuments
+        }
+    });
+});
+
 const updateEstate = async (req, res, next) => {
     try {
         const estateUpdated = await estateService.updateEstate({
@@ -176,5 +202,6 @@ export {
     findNearEstate,
     updateStatusEstate,
     getMyEstateRecommended,
-    getAllEstateNoPaging
+    getAllEstateNoPaging,
+    getEstateByUser
 };
