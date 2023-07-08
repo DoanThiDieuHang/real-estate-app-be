@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 class content_base_function():
     def __init__(self):
-        self.estate_cols = ['_id','type','price']
+        self.estate_cols = ['_id','type','price','address']
 
     def get_dataframe_estates(self, text):
         estates = pandas.DataFrame(text)

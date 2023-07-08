@@ -12,7 +12,7 @@ class ContentBased(object):
             estates)
         self.tfidf_matrix = None
         self.cosine_sim = None
-        self.estate_cols = ['_id','price', 'type']
+        self.estate_cols = ['_id','price', 'type', 'address']
 
     def build_model(self):
         self.tfidf_matrix = function_package.content_base_function().tfidf_matrix(
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 		cb.refresh()
 		item_df = function_package.content_base_function().get_dataframe_estates(
             item_names)
-		estate_cols = ['_id','price', 'type']
+		estate_cols = ['_id','price', 'type', 'address']
         
 		item_name_recommend = item_df[estate_cols].astype(
             str).apply(' '.join, axis=1).tolist()
