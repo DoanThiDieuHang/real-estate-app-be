@@ -18,6 +18,7 @@ class WebSockets {
         client.on(webSocketsMessages.subcribed, (room, buyerId) => {
             client.join(room);
             this.subcribeBuyer(room, buyerId);
+            console.log('room joined: ', room);
         });
         // mute a chat room
         client.on(webSocketsMessages.unsubcribed, room => {
