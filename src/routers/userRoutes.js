@@ -27,7 +27,7 @@ userRouter
     .delete(checkUserAdmin, userController.deleteUser)
     .patch(checkUserAdmin, userController.updateUser);
 userRouter
-    .route('/:id/estates')
+    .route('/admin/:id/estates')
     .get(checkUserAdmin, estateController.getEstateByUser);
 // nested router for user
 userRouter
