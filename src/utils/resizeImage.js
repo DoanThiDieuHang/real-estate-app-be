@@ -11,7 +11,7 @@ export const getCoverImageResized = async files => {
     if (coverImage.length === 0) return;
     const coverImageWidth = 400;
     const coverImageHeigth = 400;
-    const lastImage = coverImage.at(-1);
+    const lastImage = coverImage?.at(-1);
     const bufferResized = await resize(
         lastImage.buffer,
         coverImageWidth,
